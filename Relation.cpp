@@ -14,6 +14,9 @@ void Relation::AddTuple(Tuple t) {
 
 void Relation::PrintRelations() {
 	for (auto& it : tupleSet) {
+		for (size_t i = 0; i < *it.size(); i++) {
+			cout << scheme[i] << "=" << *it[i] << ", ";
+		}
 	}
 }
 
