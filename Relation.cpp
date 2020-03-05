@@ -13,11 +13,24 @@ void Relation::AddTuple(Tuple t) {
 }
 
 void Relation::PrintRelations() {
-	for (auto& it : tupleSet) {
-		for (size_t i = 0; i < *it.size(); i++) {
-			cout << scheme[i] << "=" << *it[i] << ", ";
-		}
+	Tuple myTup = Tuple();
+
+	myTup.push_back("'33333'");
+	myTup.push_back("'Snoopy'");
+
+	for (unsigned i = 0; i < myTup.size(); i++) {
+		cout << myTup[i];
 	}
+
+
+	//for (auto it = tupleSet.begin(); it != tupleSet.end(); it++) {
+	//	
+	//	this->size();
+
+	//	//for (size_t i = 0; i < *it.size(); i++) {
+	//	//	cout << scheme[i] << "=" << *it[i] << ", ";
+	//	//}
+	//}
 }
 
 void Relation::ToString(int i) {

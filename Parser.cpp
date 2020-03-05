@@ -15,7 +15,7 @@ DatalogProgram Parser::Parse() {
 
     DatalogProgramParse();
 		cout << "Success!" << endl;
-    cout << program.toString();
+    //cout << program.toString();
 
   } catch (Token error) {
     cout << "Failure!" << endl << "  " << error.ToString() << endl;

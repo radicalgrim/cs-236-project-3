@@ -1,6 +1,7 @@
-#include "Parser.h"
-#include "Scanner.h"
 #include "Token.h"
+#include "Scanner.h"
+#include "Parser.h"
+#include "Interpreter.h"
 #include <iostream>
 
 int main(int argc, char* argv[]) {
@@ -9,8 +10,8 @@ int main(int argc, char* argv[]) {
 	Scanner s = Scanner(filename);
 	s.Scan(filename);
 	Parser p = Parser(s.GetTokenList());
-	p.Parse();
-
+	Interpreter i = p.Parse();
+	i.PrintInterpreter();
 
 	return 0;
 }

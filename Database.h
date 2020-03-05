@@ -8,5 +8,6 @@ private:
 public:
 	Database();
 	Relation GetRelation(string name);
+	void PrintDatabase();
 };
 
