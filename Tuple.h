@@ -10,5 +10,6 @@ private:
 public:	
 	Tuple();
 	string GetValue(int i);
+	void AddValue(string v);
 };
 

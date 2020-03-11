@@ -7,7 +7,10 @@ private:
 	map<string, Relation> database;
 public:
 	Database();
-	Relation GetRelation(string name);
+	Database(string n, Relation R);
+	Relation GetRelation(string n);
+	void AddRelation(string n, Relation R);
+	void SetRelation(string n, Tuple T);
 	void PrintDatabase();
 };
 

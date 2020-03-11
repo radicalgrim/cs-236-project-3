@@ -6,9 +6,10 @@ using namespace std;
 
 class Scheme {
 private:
-	vector<string> nameList;
+	vector<string> attributeList;
 public:
 	Scheme();
 	string GetAttribute(int index);
+	void AddAttribute(string a);
 	int GetLength();
 };

@@ -3,6 +3,10 @@
 Relation::Relation() {
 }
 
+Relation::Relation(string n) {
+	name = n;
+}
+
 Relation::Relation(string n, Scheme s) {
 	name = n;
 	scheme = s;
@@ -13,13 +17,9 @@ void Relation::AddTuple(Tuple t) {
 }
 
 void Relation::PrintRelations() {
-	Tuple myTup = Tuple();
 
-	myTup.push_back("'33333'");
-	myTup.push_back("'Snoopy'");
-
-	for (unsigned i = 0; i < myTup.size(); i++) {
-		cout << myTup[i];
+	for (size_t i = 0; i < tupleSet.size(); i++) {
+		cout << this->GetName();
 	}
 
 
@@ -37,4 +37,16 @@ void Relation::ToString(int i) {
 	for (size_t j = 0; j < scheme.GetLength(); j++) {
 		cout << scheme.GetAttribute(j) << "=";
 	}
+}
+
+void Relation::SetName(string n) {
+	name = n;
+}
+
+void Relation::SetScheme(Scheme S) {
+	scheme = S;
+}
+
+string Relation::GetName() {
+	return name;
 }
