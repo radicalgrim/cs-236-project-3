@@ -121,6 +121,7 @@ void Parser::FactParse() {
   parameter = Parameter(expression);
   program.SetDomain(expression);
   Match(STRING);
+  parameter.SetConstant();
   parameterList.push_back(parameter);
   StringListParse();
   Match(RIGHT_PAREN);
@@ -213,6 +214,7 @@ void Parser::StringListParse() {
     parameter = Parameter(expression);
     program.SetDomain(expression);
     Match(STRING);
+    parameter.SetConstant();
     parameterList.push_back(parameter);
 
     StringListParse();
@@ -244,6 +246,9 @@ void Parser::ParameterParse() {
     else {
       expression = tokenList[count].GetValue();
       parameter = Parameter(expression);
+      if (type == STRING) {
+        parameter.SetConstant();
+      }
       Match(type);
       parameterList.push_back(parameter);
       //expression = "";

@@ -11,8 +11,14 @@ private:
 	Tuple tupleTemp;
 	void SchemeInterpreter();
 	void FactInterpreter();
+	Relation EvaluateSingleQuery(Predicate predicate);
+	Relation SelectSpecificValue(int index, string value);
+	Relation SelectMatchingColumns(int index_1, int index_2);
+	Relation Project(vector<int> indexList);
+	Relation Rename(vector<string> nameList);
 public:
 	Interpreter();
 	Interpreter(DatalogProgram dp);
 	void PrintInterpreter();
+	void EvaluateAllQueries();
 };

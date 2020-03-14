@@ -12,30 +12,26 @@ Relation::Relation(string n, Scheme s) {
 	scheme = s;
 }
 
+Relation::Relation(string n, set<Tuple> T) {
+	name = n;
+	tupleSet = T;
+}
+
 void Relation::AddTuple(Tuple t) {
 	tupleSet.insert(t);
 }
 
-void Relation::PrintRelations() {
-
-	for (size_t i = 0; i < tupleSet.size(); i++) {
-		cout << this->GetName();
-	}
-
-
-	//for (auto it = tupleSet.begin(); it != tupleSet.end(); it++) {
-	//	
-	//	this->size();
-
-	//	//for (size_t i = 0; i < *it.size(); i++) {
-	//	//	cout << scheme[i] << "=" << *it[i] << ", ";
-	//	//}
-	//}
-}
-
-void Relation::ToString(int i) {
-	for (size_t j = 0; j < scheme.GetLength(); j++) {
-		cout << scheme.GetAttribute(j) << "=";
+void Relation::PrintRelation() {
+	for (auto it : tupleSet) {
+		for (size_t i = 0; i < scheme.GetLength(); i++) {
+			cout << scheme.GetAttribute(i) << "=" << it.GetValue(i);
+			if (i == scheme.GetLength() - 1) {
+				cout << endl;
+			}
+			else {
+				cout << ", ";
+			}
+		}
 	}
 }
 
@@ -49,4 +45,12 @@ void Relation::SetScheme(Scheme S) {
 
 string Relation::GetName() {
 	return name;
+}
+
+Scheme Relation::GetScheme() {
+	return scheme;
+}
+
+set<Tuple> Relation::GetTupleSet() {
+	return tupleSet;
 }

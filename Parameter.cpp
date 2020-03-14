@@ -1,23 +1,13 @@
 #include "Parameter.h"
 
-void Parameter::MakeExpression() {
-/*string str = "";
-	
-	if (t == ADD) {
-		str = " + ";
-	}
-	else (t == MULTIPLY) {
-		str = " * ";
-	}
-	*/
-}
-
 Parameter::Parameter() {
 	expression = "";
+	isConstant = false;
 }
 
 Parameter::Parameter(string exp) {
 	expression = exp;
+	isConstant = false;
 }
 
 string Parameter::toString() {
@@ -31,4 +21,12 @@ void Parameter::SetExpression(string left, string exp, string right) {
 
 string Parameter::GetExpression() {
 	return expression;
+}
+
+void Parameter::SetConstant() {
+	isConstant = true;
+}
+
+bool Parameter::GetConstant() {
+	return isConstant;
 }
