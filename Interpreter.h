@@ -11,7 +11,8 @@ private:
 	Tuple tupleTemp;
 	void SchemeInterpreter();
 	void FactInterpreter();
-	Relation EvaluateSingleQuery(Predicate predicate);
+	void QueryInterpreter();
+	Relation EvaluateQuery(Predicate predicate);
 	Relation SelectSpecificValue(int index, string value);
 	Relation SelectMatchingColumns(int index_1, int index_2);
 	Relation Project(vector<int> indexList);
@@ -19,6 +20,5 @@ private:
 public:
 	Interpreter();
 	Interpreter(DatalogProgram dp);
-	void PrintInterpreter();
-	void EvaluateAllQueries();
+	void Interpret();
 };

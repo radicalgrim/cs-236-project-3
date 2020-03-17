@@ -10,7 +10,7 @@ public:
 	Database(string n, Relation R);
 	Relation GetRelation(string n);
 	void AddRelation(string n, Relation R);
-	void SetRelation(string n, Tuple T);
-	void PrintDatabase();
+	void SetRelation(string n, Relation R);
+	void PrintQueries(vector<string> queryList);
 };
 

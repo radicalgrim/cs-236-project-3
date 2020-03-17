@@ -10,23 +10,49 @@ void Interpreter::SchemeInterpreter() {
 		}
 		relationTemp.SetScheme(schemeTemp);
 		database.AddRelation(relationTemp.GetName(), relationTemp);
+		cout << "schemes in the database:" << endl;
+		for (size_t j = 0; j < program.GetSchemeList()[i].GetParameterList().size(); j++) {
+			cout << endl << database.GetRelation(program.GetSchemeList()[i].GetName()).GetScheme().GetAttribute(j) << endl;
+		}
 	}
 }
+
+
+//void Interpreter::FactInterpreter() {
+//	for (size_t i = 0; i < program.GetFactList().size(); i++) {
+//		relationTemp = database.GetRelation(program.GetFactList()[i].GetName());
+//		tupleTemp = Tuple();
+//		cout << "What's going into the tupletemp:" << endl;
+//		for (size_t j = 0; j < program.GetFactList()[i].GetParameterList().size(); j++) {
+//			tupleTemp.AddValue(program.GetFactList()[i].GetParameterList()[j].GetExpression());
+//		}
+//		for (size_t j = 0; j < program.GetFactList()[i].GetParameterList().size(); j++) {
+//			cout << tupleTemp.GetValue(j) << endl;
+//		}
+//		relationTemp.AddTuple(tupleTemp);
+//		database.SetRelation(relationTemp.GetName(), relationTemp);
+//	}
+//	
+//}
 
 
 void Interpreter::FactInterpreter() {
 	for (size_t i = 0; i < program.GetFactList().size(); i++) {
-		relationTemp = database.GetRelation(program.GetFactList()[i].GetName());
 		tupleTemp = Tuple();
+		cout << "What's going into the tupletemp:" << endl;
 		for (size_t j = 0; j < program.GetFactList()[i].GetParameterList().size(); j++) {
 			tupleTemp.AddValue(program.GetFactList()[i].GetParameterList()[j].GetExpression());
 		}
-		database.SetRelation(relationTemp.GetName(), tupleTemp);
+		for (size_t j = 0; j < program.GetFactList()[i].GetParameterList().size(); j++) {
+			cout << tupleTemp.GetValue(j) << endl;
+		}
+		database.GetRelation(program.GetFactList()[i].GetName()).AddTuple(tupleTemp);
 	}
+
 }
 
 
-Relation Interpreter::EvaluateSingleQuery(Predicate predicate) {
+Relation Interpreter::EvaluateQuery(Predicate predicate) {
 	map<string, int> variableTracker;
 	relationTemp = database.GetRelation(predicate.GetName());
 
@@ -89,7 +115,7 @@ Relation Interpreter::Project(vector<int> indexList) {
 	Scheme newScheme = Scheme();
 	Tuple newTuple = Tuple();
 	for (size_t i = 0; i < indexList.size(); i++) {
-		newScheme.AddAttribute(schemeTemp.GetAttribute(indexList[i]));
+		newScheme.AddAttribute(relationTemp.GetScheme().GetAttribute(indexList[i]));
 	}
 	newRelation.SetScheme(newScheme);
 	for (auto it : relationTemp.GetTupleSet()) {
@@ -120,19 +146,25 @@ Interpreter::Interpreter() {
 
 Interpreter::Interpreter(DatalogProgram dp) {
 	program = dp;
+}
+
+void Interpreter::Interpret() {
 	SchemeInterpreter();
 	FactInterpreter();
-}
+	QueryInterpreter();
 
-
-void Interpreter::PrintInterpreter() {
-	database.PrintDatabase();
-}
-
-
-void Interpreter::EvaluateAllQueries() {
+	vector<string> queryNameList;
 	for (size_t i = 0; i < program.GetQueryList().size(); i++) {
-		relationTemp = EvaluateSingleQuery(program.GetQueryList()[i]);
+		queryNameList.push_back(program.GetQueryList()[i].GetName());
+	}
+
+	database.PrintQueries(queryNameList);
+}
+
+
+void Interpreter::QueryInterpreter() {
+	for (size_t i = 0; i < program.GetQueryList().size(); i++) {
+		relationTemp = EvaluateQuery(program.GetQueryList()[i]);
 		database.AddRelation(program.GetQueryList()[i].GetName(), relationTemp);
 	}
 }
