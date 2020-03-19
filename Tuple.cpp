@@ -5,9 +5,9 @@ Tuple::Tuple() {
 }
 
 string Tuple::GetValue(int i) {
-	return valueList.at(i);
+	return this->at(i);//valueList.at(i);
 }
 
 void Tuple::AddValue(string v) {
-	valueList.push_back(v);
+	this->push_back(v);//valueList.push_back(v);
 }

@@ -4,7 +4,7 @@
 
 class Database : public map<string, Relation> {
 private:
-	map<string, Relation> databaseMap;
+	//map<string, Relation> databaseMap;
 public:
 	Database();
 	Database(string n, Relation R);
