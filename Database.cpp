@@ -26,6 +26,7 @@ void Database::PrintQueries(vector<string> queryList) {
 	//	databaseMap.at(queryList[i]).PrintRelation();
 	//}
 	
+
 	for (auto it : *this/*databaseMap*/) {
 		for (size_t i = 0; i < 1; i++) {
 			it.second.PrintRelation();

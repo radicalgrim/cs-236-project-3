@@ -46,9 +46,19 @@ void Interpreter::FactInterpreter() {
 		//for (size_t j = 0; j < program.GetFactList()[i].GetParameterList().size(); j++) {
 		//	cout << tupleTemp.GetValue(j) << endl;
 		//}
-		database.GetRelation(program.GetFactList()[i].GetName()).AddTuple(tupleTemp);
+		relationTemp = database.GetRelation(program.GetFactList()[i].GetName());
+		relationTemp.AddTuple(tupleTemp);
+		database.SetRelation(relationTemp.GetName(), relationTemp);
 	}
 
+}
+
+
+void Interpreter::QueryInterpreter() {
+	for (size_t i = 0; i < program.GetQueryList().size(); i++) {
+		relationTemp = EvaluateQuery(program.GetQueryList()[i]);
+		database.SetRelation(relationTemp.GetName(), relationTemp); ///////////////////////////////////////////////////////////
+	}
 }
 
 
@@ -72,13 +82,15 @@ Relation Interpreter::EvaluateQuery(Predicate predicate) {
 		}
 	}
 
-	vector<int> columnList;
+	vector<int> columnList = vector<int>();
+	cout << endl << endl << "columnlist:" << endl;
 	for (auto it : variableTracker) {
+		cout << it.second;
 		columnList.push_back(it.second);
 	}
 	relationTemp = Project(columnList);
 
-	vector<string> nameList;
+	vector<string> nameList = vector<string>();
 	for (auto it : variableTracker) {
 		nameList.push_back(it.first);
 	}
@@ -162,9 +174,4 @@ void Interpreter::Interpret() {
 }
 
 
-void Interpreter::QueryInterpreter() {
-	for (size_t i = 0; i < program.GetQueryList().size(); i++) {
-		relationTemp = EvaluateQuery(program.GetQueryList()[i]);
-		database.AddRelation(program.GetQueryList()[i].GetName(), relationTemp);
-	}
-}
+
