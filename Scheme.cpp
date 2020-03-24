@@ -4,6 +4,10 @@ Scheme::Scheme() {
 
 }
 
+vector<string> Scheme::GetAttributeList() {
+	return attributeList;
+}
+
 string Scheme::GetAttribute(int index) {
 	return attributeList.at(index);
 }

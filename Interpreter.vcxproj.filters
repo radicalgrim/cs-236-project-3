@@ -95,5 +95,26 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="TestFiles\in62.txt" />
+    <Text Include="TestFiles\in30.txt" />
+    <Text Include="TestFiles\in33.txt" />
+    <Text Include="TestFiles\in35.txt" />
+    <Text Include="TestFiles\in36.txt" />
+    <Text Include="TestFiles\in37.txt" />
+    <Text Include="TestFiles\in41.txt" />
+    <Text Include="TestFiles\in42.txt" />
+    <Text Include="TestFiles\in43.txt" />
+    <Text Include="TestFiles\in44.txt" />
+    <Text Include="TestFiles\in61.txt" />
+    <Text Include="TestFiles\out30.txt" />
+    <Text Include="TestFiles\out33.txt" />
+    <Text Include="TestFiles\out35.txt" />
+    <Text Include="TestFiles\out36.txt" />
+    <Text Include="TestFiles\out37.txt" />
+    <Text Include="TestFiles\out41.txt" />
+    <Text Include="TestFiles\out42.txt" />
+    <Text Include="TestFiles\out43.txt" />
+    <Text Include="TestFiles\out44.txt" />
+    <Text Include="TestFiles\out61.txt" />
+    <Text Include="TestFiles\out62.txt" />
   </ItemGroup>
 </Project>

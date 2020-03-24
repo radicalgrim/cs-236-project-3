@@ -9,6 +9,7 @@ private:
 	vector<string> attributeList;
 public:
 	Scheme();
+	vector<string> GetAttributeList();
 	string GetAttribute(int index);
 	void AddAttribute(string a);
 	int GetLength();

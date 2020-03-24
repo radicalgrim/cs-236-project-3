@@ -22,10 +22,11 @@ void Relation::AddTuple(Tuple t) {
 }
 
 void Relation::PrintRelation() {
-	int count = 1;
 	for (auto it : tupleSet) {
-		//cout << count << " " << tupleSet.size() << endl;
 		for (size_t i = 0; i < scheme.GetLength(); i++) {
+			if (i == 0) {
+				cout << "  ";
+			}
 			cout << scheme.GetAttribute(i) << "=" << it.GetValue(i);
 			if (i == scheme.GetLength() - 1) {
 				cout << endl;
@@ -34,7 +35,6 @@ void Relation::PrintRelation() {
 				cout << ", ";
 			}
 		}
-		count++;
 	}
 }
 

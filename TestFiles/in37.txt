@@ -3,13 +3,12 @@
 Schemes:
   bob(A,B)
 
-# fact/rule lists should be optional
-
 Facts:
+  bob('a','b').
 
 Rules:
 
 Queries:
-  bob(X,Y)?
+  bob('a',B)?
 
 

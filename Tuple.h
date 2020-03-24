@@ -6,7 +6,6 @@ using namespace std;
 
 class Tuple : public vector<string> {
 private:
-	//vector<string> valueList;
 public:	
 	Tuple();
 	string GetValue(int i);

@@ -4,13 +4,11 @@
 
 class Database : public map<string, Relation> {
 private:
-	//map<string, Relation> databaseMap;
 public:
 	Database();
 	Database(string n, Relation R);
 	Relation GetRelation(string n);
 	void AddRelation(string n, Relation R);
-	void SetRelation(string n, Relation R);
-	void PrintQueries(vector<string> queryList);
+	void ResetRelation(string n, Relation R);
 };
 
