@@ -2,47 +2,32 @@
 
 
 void Interpreter::SchemeInterpreter() {
-	cout << endl << "Schemes:" << endl;
 	for (size_t i = 0; i < program.GetSchemeList().size(); i++) {
 		relationTemp = Relation(program.GetSchemeList()[i].GetName());
 		schemeTemp = Scheme();
-		cout << program.GetSchemeList()[i].GetName();
 		for (size_t j = 0; j < program.GetSchemeList()[i].GetParameterList().size(); j++) {
 			schemeTemp.AddAttribute(program.GetSchemeList()[i].GetParameterList()[j].GetExpression());
 		}
 		relationTemp.SetScheme(schemeTemp);
 		database.AddRelation(relationTemp.GetName(), relationTemp);
-		for (size_t j = 0; j < program.GetSchemeList()[i].GetParameterList().size(); j++) {
-			cout << endl << "  " << database.GetRelation(program.GetSchemeList()[i].GetName()).GetScheme().GetAttribute(j);
-		}
-		cout << endl;
 	}
-	cout << endl;
 }
 
 
 void Interpreter::FactInterpreter() {
-	cout << "Facts:" << endl;
 	for (size_t i = 0; i < program.GetFactList().size(); i++) {
 		tupleTemp = Tuple();
-		cout << program.GetFactList()[i].GetName();
 		for (size_t j = 0; j < program.GetFactList()[i].GetParameterList().size(); j++) {
 			tupleTemp.AddValue(program.GetFactList()[i].GetParameterList()[j].GetExpression());
 		}
-		for (size_t j = 0; j < program.GetFactList()[i].GetParameterList().size(); j++) {
-			cout << endl << "  " << tupleTemp.GetValue(j);
-		}
-		cout << endl;
 		relationTemp = database.GetRelation(program.GetFactList()[i].GetName());
 		relationTemp.AddTuple(tupleTemp);
 		database.ResetRelation(relationTemp.GetName(), relationTemp);
 	}
-	cout << endl;
 }
 
 
 void Interpreter::QueryInterpreter() {
-	cout << "Queries:" << endl;
 	for (size_t i = 0; i < program.GetQueryList().size(); i++) {
 		EvaluateQuery(program.GetQueryList()[i]);
 	}

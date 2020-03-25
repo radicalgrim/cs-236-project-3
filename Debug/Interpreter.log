@@ -1,4 +1,7 @@
-﻿  Interpreter.cpp
+﻿  Database.cpp
+  Interpreter.cpp
+  Relation.cpp
+  Scheme.cpp
   main.cpp
   Generating Code...
   Interpreter.vcxproj -> D:\Users\Josh\Documents\CS Projects\Relational Database\Debug\Interpreter.exe
