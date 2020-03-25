@@ -12,5 +12,5 @@ public:
 	vector<string> GetAttributeList();
 	string GetAttribute(int index);
 	void AddAttribute(string a);
-	int GetLength();
+	size_t GetLength();
 };

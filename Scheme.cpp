@@ -16,6 +16,6 @@ void Scheme::AddAttribute(string a) {
 	attributeList.push_back(a);
 }
 
-int Scheme::GetLength() {
+size_t Scheme::GetLength() {
 	return attributeList.size();
 }
