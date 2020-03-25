@@ -18,6 +18,7 @@ private:
 	void SelectMatchingColumns(int index_1, int index_2);
 	void Project(vector<int> indexList);
 	void Rename(vector<string> nameList);
+	void PrintQuery(Predicate predicate);
 public:
 	Interpreter();
 	Interpreter(DatalogProgram dp);

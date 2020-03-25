@@ -51,6 +51,8 @@ void Interpreter::QueryInterpreter() {
 
 void Interpreter::EvaluateQuery(Predicate predicate) {
 	map<string, int> variableTracker = map<string, int>();
+	vector<int> columnList = vector<int>();
+	vector<string> nameList = vector<string>();
 	relationTemp = database.GetRelation(predicate.GetName());
 
 	for (size_t i = 0; i < predicate.GetParameterList().size(); i++) {
@@ -65,44 +67,15 @@ void Interpreter::EvaluateQuery(Predicate predicate) {
 			}
 			else {
 				variableTracker.insert(pair<string, int>(expression, i));
+				columnList.push_back(i);
+				nameList.push_back(expression);
 			}
 		}
 	}
 
-	vector<int> columnList = vector<int>();
-	//cout << endl << "columnlist:" << endl;
-	for (auto it : variableTracker) {
-		//cout << "  " << it.second;
-		columnList.push_back(it.second);
-	}
-	//cout << endl;
 	Project(columnList);
-
-	vector<string> nameList = vector<string>();
-	//cout << endl << "namelist:" << endl;
-	for (auto it : variableTracker) {
-		//cout << "  " << it.first;
-		nameList.push_back(it.first);
-	}
-	//cout << endl;
 	Rename(nameList);
-
-	cout << relationTemp.GetName() << "(";
-	for (size_t i = 0; i < predicate.GetParameterList().size(); i++) {
-		cout << predicate.GetParameterList()[i].GetExpression();
-		if (i < predicate.GetParameterList().size() - 1) {
-			cout << ",";
-		}
-	}
-	cout << ")? ";
-	if (relationTemp.GetTupleSet().empty()) {
-		cout << "No";
-	}
-	else {
-		cout << "Yes(" << relationTemp.GetTupleSet().size() << ")";
-	}
-	cout << endl;
-	relationTemp.PrintRelation();
+	PrintQuery(predicate);
 }
 
 
@@ -156,6 +129,25 @@ void Interpreter::Rename(vector<string> nameList) {
 	}
 	newRelation.SetScheme(newScheme);
 	relationTemp = newRelation;
+}
+
+void Interpreter::PrintQuery(Predicate predicate) {
+	cout << relationTemp.GetName() << "(";
+	for (size_t i = 0; i < predicate.GetParameterList().size(); i++) {
+		cout << predicate.GetParameterList()[i].GetExpression();
+		if (i < predicate.GetParameterList().size() - 1) {
+			cout << ",";
+		}
+	}
+	cout << ")? ";
+	if (relationTemp.GetTupleSet().empty()) {
+		cout << "No";
+	}
+	else {
+		cout << "Yes(" << relationTemp.GetTupleSet().size() << ")";
+	}
+	cout << endl;
+	relationTemp.PrintRelation();
 }
 
 
