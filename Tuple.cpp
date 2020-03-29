@@ -11,3 +11,7 @@ string Tuple::GetValue(int i) {
 void Tuple::AddValue(string v) {
 	this->push_back(v);
 }
+
+vector<string> Tuple::GetValueList() {
+	return *this;
+}

@@ -1,6 +1,60 @@
 #include "Interpreter.h"
 
 
+Interpreter::Interpreter() {
+}
+
+
+Interpreter::Interpreter(DatalogProgram dp) {
+	program = dp;
+}
+
+
+void Interpreter::Interpret() {
+	SchemeInterpreter();
+	FactInterpreter();
+	//RuleInterpreter();
+	QueryInterpreter();
+
+	string n_1 = "Example_1";
+	Scheme S_1 = Scheme();
+	S_1.AddAttribute("A");
+	S_1.AddAttribute("B");
+	S_1.AddAttribute("C");
+	Tuple T_1_1 = Tuple();
+	T_1_1.AddValue("bob");
+	T_1_1.AddValue("joe");
+	T_1_1.AddValue("paul");
+	Tuple T_1_2 = Tuple();
+	T_1_2.AddValue("sue");
+	T_1_2.AddValue("barb");
+	T_1_2.AddValue("kate");
+	Relation exampleRelation_1 = Relation(n_1, S_1);
+	exampleRelation_1.AddTuple(T_1_1);
+	exampleRelation_1.AddTuple(T_1_2);
+
+	string n_2 = "Example_2";
+	Scheme S_2 = Scheme();
+	S_2.AddAttribute("B");
+	S_2.AddAttribute("C");
+	S_2.AddAttribute("D");
+	Tuple T_2_1 = Tuple();
+	T_2_1.AddValue("joe");
+	T_2_1.AddValue("paul");
+	T_2_1.AddValue("kip");
+	Tuple T_2_2 = Tuple();
+	T_2_2.AddValue("barb");
+	T_2_2.AddValue("kate");
+	T_2_2.AddValue("lara");
+	Relation exampleRelation_2 = Relation(n_2, S_2);
+	exampleRelation_2.AddTuple(T_2_1);
+	exampleRelation_2.AddTuple(T_2_2);
+
+	Join(exampleRelation_1, exampleRelation_2);
+
+}
+
+
 void Interpreter::SchemeInterpreter() {
 	for (size_t i = 0; i < program.GetSchemeList().size(); i++) {
 		relationTemp = Relation(program.GetSchemeList()[i].GetName());
@@ -27,14 +81,24 @@ void Interpreter::FactInterpreter() {
 }
 
 
-void Interpreter::QueryInterpreter() {
-	for (size_t i = 0; i < program.GetQueryList().size(); i++) {
-		EvaluateQuery(program.GetQueryList()[i]);
+void Interpreter::RuleInterpreter() {
+	for (size_t i = 0; i < program.GetRuleList().size(); i++) {
+		EvaluateRule(program.GetRuleList()[i]);
 	}
 }
 
+void Interpreter::EvaluateRule(Rule rule) {
+	for (size_t i = 0; i < rule.GetBodyPredicates().size(); i++) {
+		EvaluatePredicate(rule.GetBodyPredicates()[i]);
+		//Join();
+	}
+	//Project();
+	//Rename();
+	//UniteWithDatabase();
+}
 
-void Interpreter::EvaluateQuery(Predicate predicate) {
+
+void Interpreter::EvaluatePredicate(Predicate predicate) {
 	map<string, int> variableTracker = map<string, int>();
 	vector<int> columnList = vector<int>();
 	vector<string> nameList = vector<string>();
@@ -42,7 +106,7 @@ void Interpreter::EvaluateQuery(Predicate predicate) {
 
 	for (size_t i = 0; i < predicate.GetParameterList().size(); i++) {
 		string expression = predicate.GetParameterList()[i].GetExpression();
-		
+
 		if (predicate.GetParameterList()[i].GetConstant()) {
 			SelectSpecificValue(i, expression);
 		}
@@ -116,6 +180,111 @@ void Interpreter::Rename(vector<string> nameList) {
 	relationTemp = newRelation;
 }
 
+
+void Interpreter::Join(Relation relation_1, Relation relation_2) {
+	string name = "Example_Join"; /* Name from head predicate? */
+	Scheme newScheme = Scheme();
+	newScheme = CombineSchemes(relation_1.GetScheme(), relation_2.GetScheme());
+	Relation newRelation = Relation(name, newScheme);
+
+	for (auto it_1 : relation_1.GetTupleSet()) {
+		for (auto it_2 : relation_2.GetTupleSet()) {
+			if (Joinable(it_1, it_2, relation_1.GetScheme(), relation_2.GetScheme())) {
+				Tuple newTuple = Tuple();
+				newTuple = CombineTuples(it_1, it_2, relation_1.GetScheme(), relation_2.GetScheme()); /* OPTIMIZE */
+				newRelation.AddTuple(newTuple);
+			}
+		}
+	}
+
+	cout << endl << endl << newRelation.GetName() << "(";
+	for (size_t i = 0; i < newRelation.GetScheme().GetAttributeList().size(); i++) {
+		cout << newRelation.GetScheme().GetAttribute(i);
+		if (i < newRelation.GetScheme().GetAttributeList().size() - 1) {
+			cout << ",";
+		}
+	}
+	cout << ")? ";
+	if (newRelation.GetTupleSet().empty()) {
+		cout << "No";
+	}
+	else {
+		cout << "Yes(" << newRelation.GetTupleSet().size() << ")";
+	}
+	cout << endl;
+	newRelation.PrintRelation();
+
+}
+
+Scheme Interpreter::CombineSchemes(Scheme scheme_1, Scheme scheme_2) {
+	Scheme newScheme = Scheme();
+	for (size_t i = 0; i < scheme_1.GetAttributeList().size(); i++) {
+		newScheme.AddAttribute(scheme_1.GetAttribute(i));
+	}
+	bool found = false;
+	for (size_t i = 0; i < scheme_2.GetAttributeList().size(); i++) {
+		for (size_t j = 0; j < scheme_2.GetAttributeList().size(); j++) {
+			if (scheme_2.GetAttribute(i) == scheme_1.GetAttribute(j)) {
+				found = true;
+				break;
+			}
+		}
+		if (!found) {
+			newScheme.AddAttribute(scheme_2.GetAttribute(i));
+		}
+		found = false;
+	}
+
+	return newScheme;
+}
+
+bool Interpreter::Joinable(Tuple tuple_1, Tuple tuple_2, Scheme scheme_1, Scheme scheme_2) {
+	for (size_t i = 0; i < scheme_1.GetAttributeList().size(); i++) {
+		for (size_t j = 0; j < scheme_2.GetAttributeList().size(); j++) {
+			if ((scheme_1.GetAttribute(i) == scheme_2.GetAttribute(j))
+				&& (tuple_1.GetValue(i) != tuple_2.GetValue(j))) {
+				return false;
+			}
+		}
+	}
+	return true;
+}
+
+Tuple Interpreter::CombineTuples(Tuple tuple_1, Tuple tuple_2, Scheme scheme_1, Scheme scheme_2) {
+	Tuple newTuple = Tuple();
+	for (size_t i = 0; i < tuple_1.GetValueList().size(); i++) {
+		newTuple.AddValue(tuple_1.GetValue(i));
+	}
+
+	bool found = false;
+	for (size_t i = 0; i < tuple_2.GetValueList().size(); i++) {
+		for (size_t j = 0; j < tuple_1.GetValueList().size(); j++) {
+			if (scheme_2.GetAttribute(i) == scheme_1.GetAttribute(j)) {
+				found = true;
+				break;
+			}
+		}
+		if (!found) {
+			newTuple.AddValue(tuple_2.GetValue(i));
+		}
+		found = false;
+	}
+
+	return newTuple;
+}
+
+void Interpreter::UniteWithDatabase(Relation joinedRelation) {
+
+}
+
+
+void Interpreter::QueryInterpreter() {
+	for (size_t i = 0; i < program.GetQueryList().size(); i++) {
+		EvaluatePredicate(program.GetQueryList()[i]);
+	}
+}
+
+
 void Interpreter::PrintQuery(Predicate predicate) {
 	cout << relationTemp.GetName() << "(";
 	for (size_t i = 0; i < predicate.GetParameterList().size(); i++) {
@@ -133,20 +302,4 @@ void Interpreter::PrintQuery(Predicate predicate) {
 	}
 	cout << endl;
 	relationTemp.PrintRelation();
-}
-
-
-Interpreter::Interpreter() {
-
-}
-
-
-Interpreter::Interpreter(DatalogProgram dp) {
-	program = dp;
-}
-
-void Interpreter::Interpret() {
-	SchemeInterpreter();
-	FactInterpreter();
-	QueryInterpreter();
 }

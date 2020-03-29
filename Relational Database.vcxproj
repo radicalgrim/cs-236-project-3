@@ -138,6 +138,58 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Database.cpp" />
+    <ClCompile Include="DatalogProgram.cpp" />
+    <ClCompile Include="Interpreter.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Parameter.cpp" />
+    <ClCompile Include="Parser.cpp" />
+    <ClCompile Include="Predicate.cpp" />
+    <ClCompile Include="Relation.cpp" />
+    <ClCompile Include="Rule.cpp" />
+    <ClCompile Include="Scanner.cpp" />
+    <ClCompile Include="Scheme.cpp" />
+    <ClCompile Include="Token.cpp" />
+    <ClCompile Include="Tuple.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Database.h" />
+    <ClInclude Include="DatalogProgram.h" />
+    <ClInclude Include="Interpreter.h" />
+    <ClInclude Include="Parameter.h" />
+    <ClInclude Include="Parser.h" />
+    <ClInclude Include="Predicate.h" />
+    <ClInclude Include="Relation.h" />
+    <ClInclude Include="Rule.h" />
+    <ClInclude Include="Scanner.h" />
+    <ClInclude Include="Scheme.h" />
+    <ClInclude Include="Token.h" />
+    <ClInclude Include="Tuple.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="TestFiles\in40.txt" />
+    <Text Include="TestFiles\in44.txt" />
+    <Text Include="TestFiles\in45.txt" />
+    <Text Include="TestFiles\in46.txt" />
+    <Text Include="TestFiles\in47.txt" />
+    <Text Include="TestFiles\in48.txt" />
+    <Text Include="TestFiles\in49.txt" />
+    <Text Include="TestFiles\in54.txt" />
+    <Text Include="TestFiles\in55.txt" />
+    <Text Include="TestFiles\in61.txt" />
+    <Text Include="TestFiles\in62.txt" />
+    <Text Include="TestFiles\in88.txt" />
+    <Text Include="TestFiles\out40.txt" />
+    <Text Include="TestFiles\out44.txt" />
+    <Text Include="TestFiles\out45.txt" />
+    <Text Include="TestFiles\out46.txt" />
+    <Text Include="TestFiles\out47.txt" />
+    <Text Include="TestFiles\out48.txt" />
+    <Text Include="TestFiles\out49.txt" />
+    <Text Include="TestFiles\out54.txt" />
+    <Text Include="TestFiles\out55.txt" />
+    <Text Include="TestFiles\out61.txt" />
+    <Text Include="TestFiles\out62.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

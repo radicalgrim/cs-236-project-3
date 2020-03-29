@@ -10,5 +10,6 @@ public:
 	Tuple();
 	string GetValue(int i);
 	void AddValue(string v);
+	vector<string> GetValueList();
 };
 
