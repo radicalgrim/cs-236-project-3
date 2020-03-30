@@ -17,8 +17,8 @@ Relation::Relation(string n, set<Tuple> T) {
 	tupleSet = T;
 }
 
-void Relation::AddTuple(Tuple t) {
-	tupleSet.insert(t);
+bool Relation::AddTuple(Tuple t) {
+	return tupleSet.insert(t).second;
 }
 
 void Relation::PrintRelation() {

@@ -14,7 +14,7 @@ public:
 	Relation(string n);
 	Relation(string n, Scheme s);
 	Relation(string n, set<Tuple> T);
-	void AddTuple(Tuple t);
+	bool AddTuple(Tuple t);
 	void PrintRelation();
 	void SetName(string n);
 	void SetScheme(Scheme S);

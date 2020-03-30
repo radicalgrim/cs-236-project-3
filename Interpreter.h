@@ -13,6 +13,7 @@ private:
 	void FactInterpreter();
 	void RuleInterpreter();
 	void EvaluateRule(Rule rule);
+	void PrintRule(Rule rule);
 	void EvaluatePredicate(Predicate predicate);
 	void SelectSpecificValue(int index, string value);
 	void SelectMatchingColumns(int index_1, int index_2);

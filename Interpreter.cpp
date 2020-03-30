@@ -13,7 +13,7 @@ Interpreter::Interpreter(DatalogProgram dp) {
 void Interpreter::Interpret() {
 	SchemeInterpreter();
 	FactInterpreter();
-	//RuleInterpreter();
+	RuleInterpreter();
 	QueryInterpreter();
 
 	string n_1 = "Example_1";
@@ -87,7 +87,9 @@ void Interpreter::RuleInterpreter() {
 	}
 }
 
+
 void Interpreter::EvaluateRule(Rule rule) {
+	//if (rule.GetBodyPredicates().size() > 1) {}
 	for (size_t i = 0; i < rule.GetBodyPredicates().size(); i++) {
 		EvaluatePredicate(rule.GetBodyPredicates()[i]);
 		//Join();
@@ -95,6 +97,35 @@ void Interpreter::EvaluateRule(Rule rule) {
 	//Project();
 	//Rename();
 	//UniteWithDatabase();
+	PrintRule(rule);
+}
+
+
+void Interpreter::PrintRule(Rule rule) {
+	cout << rule.GetHeadPredicate().GetName() << "(";
+	for (size_t i = 0; i < rule.GetHeadPredicate().GetParameterList().size(); i++) {
+		cout << rule.GetHeadPredicate().GetParameterList()[i].GetExpression();
+		if (i < rule.GetHeadPredicate().GetParameterList().size() - 1) {
+			cout << ",";
+		}
+	}
+	cout << ") :- ";
+
+	for (size_t i = 0; i < rule.GetBodyPredicates().size(); i++) {
+		cout << rule.GetBodyPredicates()[i].GetName() << "(";
+		for (size_t j = 0; j < rule.GetBodyPredicates()[i].GetParameterList().size(); j++) {
+			cout << rule.GetBodyPredicates()[i].GetParameterList()[j].GetExpression();
+			if (j < rule.GetBodyPredicates()[i].GetParameterList().size() - 1) {
+				cout << ",";
+			}
+		}
+		if (i < rule.GetBodyPredicates().size() - 1) {
+			cout << "),";
+		}
+	}
+	cout << ")." << endl;
+
+	relationTemp.PrintRelation();
 }
 
 
@@ -124,7 +155,6 @@ void Interpreter::EvaluatePredicate(Predicate predicate) {
 
 	Project(columnList);
 	Rename(nameList);
-	PrintQuery(predicate);
 }
 
 
@@ -216,6 +246,7 @@ void Interpreter::Join(Relation relation_1, Relation relation_2) {
 
 }
 
+
 Scheme Interpreter::CombineSchemes(Scheme scheme_1, Scheme scheme_2) {
 	Scheme newScheme = Scheme();
 	for (size_t i = 0; i < scheme_1.GetAttributeList().size(); i++) {
@@ -238,6 +269,7 @@ Scheme Interpreter::CombineSchemes(Scheme scheme_1, Scheme scheme_2) {
 	return newScheme;
 }
 
+
 bool Interpreter::Joinable(Tuple tuple_1, Tuple tuple_2, Scheme scheme_1, Scheme scheme_2) {
 	for (size_t i = 0; i < scheme_1.GetAttributeList().size(); i++) {
 		for (size_t j = 0; j < scheme_2.GetAttributeList().size(); j++) {
@@ -249,6 +281,7 @@ bool Interpreter::Joinable(Tuple tuple_1, Tuple tuple_2, Scheme scheme_1, Scheme
 	}
 	return true;
 }
+
 
 Tuple Interpreter::CombineTuples(Tuple tuple_1, Tuple tuple_2, Scheme scheme_1, Scheme scheme_2) {
 	Tuple newTuple = Tuple();
@@ -273,14 +306,23 @@ Tuple Interpreter::CombineTuples(Tuple tuple_1, Tuple tuple_2, Scheme scheme_1, 
 	return newTuple;
 }
 
-void Interpreter::UniteWithDatabase(Relation joinedRelation) {
 
+void Interpreter::UniteWithDatabase(Relation joinedRelation) {
+	Relation newRelation = database.GetRelation(joinedRelation.GetName());
+	for (auto it : joinedRelation.GetTupleSet()) {
+		if (newRelation.AddTuple(it)) {
+			//Print tuple
+		}
+	}
+	database.ResetRelation(newRelation.GetName(), newRelation);
+	newRelation.PrintRelation();
 }
 
 
 void Interpreter::QueryInterpreter() {
 	for (size_t i = 0; i < program.GetQueryList().size(); i++) {
 		EvaluatePredicate(program.GetQueryList()[i]);
+		PrintQuery(program.GetQueryList()[i]);
 	}
 }
 
