@@ -16,41 +16,41 @@ void Interpreter::Interpret() {
 	RuleInterpreter();
 	QueryInterpreter();
 
-	string n_1 = "Example_1";
-	Scheme S_1 = Scheme();
-	S_1.AddAttribute("A");
-	S_1.AddAttribute("B");
-	S_1.AddAttribute("C");
-	Tuple T_1_1 = Tuple();
-	T_1_1.AddValue("bob");
-	T_1_1.AddValue("joe");
-	T_1_1.AddValue("paul");
-	Tuple T_1_2 = Tuple();
-	T_1_2.AddValue("sue");
-	T_1_2.AddValue("barb");
-	T_1_2.AddValue("kate");
-	Relation exampleRelation_1 = Relation(n_1, S_1);
-	exampleRelation_1.AddTuple(T_1_1);
-	exampleRelation_1.AddTuple(T_1_2);
+	//string n_1 = "Example_1";
+	//Scheme S_1 = Scheme();
+	//S_1.AddAttribute("A");
+	//S_1.AddAttribute("B");
+	//S_1.AddAttribute("C");
+	//Tuple T_1_1 = Tuple();
+	//T_1_1.AddValue("bob");
+	//T_1_1.AddValue("joe");
+	//T_1_1.AddValue("paul");
+	//Tuple T_1_2 = Tuple();
+	//T_1_2.AddValue("sue");
+	//T_1_2.AddValue("barb");
+	//T_1_2.AddValue("kate");
+	//Relation exampleRelation_1 = Relation(n_1, S_1);
+	//exampleRelation_1.AddTuple(T_1_1);
+	//exampleRelation_1.AddTuple(T_1_2);
 
-	string n_2 = "Example_2";
-	Scheme S_2 = Scheme();
-	S_2.AddAttribute("B");
-	S_2.AddAttribute("C");
-	S_2.AddAttribute("D");
-	Tuple T_2_1 = Tuple();
-	T_2_1.AddValue("joe");
-	T_2_1.AddValue("paul");
-	T_2_1.AddValue("kip");
-	Tuple T_2_2 = Tuple();
-	T_2_2.AddValue("barb");
-	T_2_2.AddValue("kate");
-	T_2_2.AddValue("lara");
-	Relation exampleRelation_2 = Relation(n_2, S_2);
-	exampleRelation_2.AddTuple(T_2_1);
-	exampleRelation_2.AddTuple(T_2_2);
+	//string n_2 = "Example_2";
+	//Scheme S_2 = Scheme();
+	//S_2.AddAttribute("B");
+	//S_2.AddAttribute("C");
+	//S_2.AddAttribute("D");
+	//Tuple T_2_1 = Tuple();
+	//T_2_1.AddValue("joe");
+	//T_2_1.AddValue("paul");
+	//T_2_1.AddValue("kip");
+	//Tuple T_2_2 = Tuple();
+	//T_2_2.AddValue("barb");
+	//T_2_2.AddValue("kate");
+	//T_2_2.AddValue("lara");
+	//Relation exampleRelation_2 = Relation(n_2, S_2);
+	//exampleRelation_2.AddTuple(T_2_1);
+	//exampleRelation_2.AddTuple(T_2_2);
 
-	Join(exampleRelation_1, exampleRelation_2);
+	//Join(exampleRelation_1, exampleRelation_2);
 
 }
 
@@ -84,12 +84,12 @@ void Interpreter::FactInterpreter() {
 void Interpreter::RuleInterpreter() {
 	cout << "Rule Evaluation" << endl;
 	for (size_t i = 0; i < program.GetRuleList().size(); i++) {
-		EvaluateRule(program.GetRuleList()[i]);
 		PrintRule(program.GetRuleList()[i]);
+		EvaluateRule(program.GetRuleList()[i]);
 	}
 	cout << endl << "Schemes populated after ";
 	cout << "?"; //UPDATE
-	cout << "passes through the Rules." << endl << endl;
+	cout << " passes through the Rules." << endl << endl;
 }
 
 
@@ -103,13 +103,15 @@ void Interpreter::EvaluateRule(Rule rule) {
 			R1 = relationTemp;
 		}
 	}
+	relationTemp.SetName(rule.GetHeadPredicate().GetName());
 
 	vector<int> columnList;
 	columnList = ConstructColumnList(rule.GetHeadPredicate().GetParameterList(), relationTemp.GetScheme().GetAttributeList());
 	Project(columnList);
-
+	
 	//Rename();
-	//UniteWithDatabase();
+	
+	UniteWithDatabase(relationTemp);
 }
 
 
@@ -150,7 +152,7 @@ void Interpreter::PrintRule(Rule rule) {
 	}
 	cout << ")." << endl;
 
-	relationTemp.PrintRelation();
+	//relationTemp.PrintRelation();
 }
 
 
@@ -237,10 +239,9 @@ void Interpreter::Rename(vector<string> nameList) {
 
 
 void Interpreter::Join(Relation relation_1, Relation relation_2) {
-	string name = "Example_Join"; /* Name from head predicate? */
 	Scheme newScheme = Scheme();
 	newScheme = CombineSchemes(relation_1.GetScheme(), relation_2.GetScheme());
-	Relation newRelation = Relation(name, newScheme);
+	Relation newRelation = Relation(relationTemp.GetName(), newScheme);
 
 	for (auto it_1 : relation_1.GetTupleSet()) {
 		for (auto it_2 : relation_2.GetTupleSet()) {
