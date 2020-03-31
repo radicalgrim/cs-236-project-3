@@ -57,3 +57,14 @@ Scheme Relation::GetScheme() {
 set<Tuple> Relation::GetTupleSet() {
 	return tupleSet;
 }
+
+
+//void Relation::SelectSpecificValue(int index, string value) {
+//	Relation newRelation = Relation(this->GetName(), this->GetScheme());
+//	for (auto it : this->GetTupleSet()) {
+//		if (it.GetValue(index) == value) {
+//			newRelation.AddTuple(it);
+//		}
+//	}
+//	*this = newRelation;
+//}

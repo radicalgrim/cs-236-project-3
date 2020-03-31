@@ -82,22 +82,47 @@ void Interpreter::FactInterpreter() {
 
 
 void Interpreter::RuleInterpreter() {
+	cout << "Rule Evaluation" << endl;
 	for (size_t i = 0; i < program.GetRuleList().size(); i++) {
 		EvaluateRule(program.GetRuleList()[i]);
+		PrintRule(program.GetRuleList()[i]);
 	}
+	cout << endl << "Schemes populated after ";
+	cout << "?"; //UPDATE
+	cout << "passes through the Rules." << endl << endl;
 }
 
 
 void Interpreter::EvaluateRule(Rule rule) {
-	//if (rule.GetBodyPredicates().size() > 1) {}
-	for (size_t i = 0; i < rule.GetBodyPredicates().size(); i++) {
-		EvaluatePredicate(rule.GetBodyPredicates()[i]);
-		//Join();
+	EvaluatePredicate(rule.GetBodyPredicates()[0]);
+	Relation R1 = relationTemp;
+	if (rule.GetBodyPredicates().size() > 1) {
+		for (size_t i = 1; i < rule.GetBodyPredicates().size(); i++) {
+			EvaluatePredicate(rule.GetBodyPredicates()[i]);
+			Join(R1, relationTemp);
+			R1 = relationTemp;
+		}
 	}
-	//Project();
+
+	vector<int> columnList;
+	columnList = ConstructColumnList(rule.GetHeadPredicate().GetParameterList(), relationTemp.GetScheme().GetAttributeList());
+	Project(columnList);
+
 	//Rename();
 	//UniteWithDatabase();
-	PrintRule(rule);
+}
+
+
+vector<int> Interpreter::ConstructColumnList(vector<Parameter> headScheme, vector<string> relationScheme) {
+	vector<int> columnList;
+	for (size_t i = 0; i < headScheme.size(); i++) {
+		for (size_t j = 0; j < relationScheme.size(); j++) {
+			if (headScheme[i].GetExpression() == relationScheme[j]) {
+				columnList.push_back(j);
+			}
+		}
+	}
+	return columnList;
 }
 
 
@@ -227,22 +252,24 @@ void Interpreter::Join(Relation relation_1, Relation relation_2) {
 		}
 	}
 
-	cout << endl << endl << newRelation.GetName() << "(";
-	for (size_t i = 0; i < newRelation.GetScheme().GetAttributeList().size(); i++) {
-		cout << newRelation.GetScheme().GetAttribute(i);
-		if (i < newRelation.GetScheme().GetAttributeList().size() - 1) {
-			cout << ",";
-		}
-	}
-	cout << ")? ";
-	if (newRelation.GetTupleSet().empty()) {
-		cout << "No";
-	}
-	else {
-		cout << "Yes(" << newRelation.GetTupleSet().size() << ")";
-	}
-	cout << endl;
-	newRelation.PrintRelation();
+	relationTemp = newRelation;
+
+	//cout << endl << endl << newRelation.GetName() << "(";
+	//for (size_t i = 0; i < newRelation.GetScheme().GetAttributeList().size(); i++) {
+	//	cout << newRelation.GetScheme().GetAttribute(i);
+	//	if (i < newRelation.GetScheme().GetAttributeList().size() - 1) {
+	//		cout << ",";
+	//	}
+	//}
+	//cout << ")? ";
+	//if (newRelation.GetTupleSet().empty()) {
+	//	cout << "No";
+	//}
+	//else {
+	//	cout << "Yes(" << newRelation.GetTupleSet().size() << ")";
+	//}
+	//cout << endl;
+	//newRelation.PrintRelation();
 
 }
 
@@ -320,6 +347,7 @@ void Interpreter::UniteWithDatabase(Relation joinedRelation) {
 
 
 void Interpreter::QueryInterpreter() {
+	cout << "Query Evaluation" << endl;
 	for (size_t i = 0; i < program.GetQueryList().size(); i++) {
 		EvaluatePredicate(program.GetQueryList()[i]);
 		PrintQuery(program.GetQueryList()[i]);

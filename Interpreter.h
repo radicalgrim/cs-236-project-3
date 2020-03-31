@@ -13,6 +13,7 @@ private:
 	void FactInterpreter();
 	void RuleInterpreter();
 	void EvaluateRule(Rule rule);
+	vector<int> ConstructColumnList(vector<Parameter> headScheme, vector<string> relationScheme);
 	void PrintRule(Rule rule);
 	void EvaluatePredicate(Predicate predicate);
 	void SelectSpecificValue(int index, string value);

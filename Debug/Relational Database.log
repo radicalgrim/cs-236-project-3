@@ -1,4 +1,3 @@
 ﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(467,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (Interpreter.vcxproj).  This can lead to incorrect clean and rebuild behavior.
   Interpreter.cpp
-D:\Users\Josh\Documents\CS Projects\Discrete Structures - CS 236\Relational Database\Interpreter.cpp(94,8): error C2660: 'Interpreter::Join': function does not take 0 arguments
-D:\Users\Josh\Documents\CS Projects\Discrete Structures - CS 236\Relational Database\Interpreter.h(22,7): message : see declaration of 'Interpreter::Join'
+  Relational Database.vcxproj -> D:\Users\Josh\Documents\CS Projects\Discrete Structures - CS 236\Debug\Relational Database.exe
