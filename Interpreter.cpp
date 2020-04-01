@@ -83,12 +83,30 @@ void Interpreter::FactInterpreter() {
 
 void Interpreter::RuleInterpreter() {
 	cout << "Rule Evaluation" << endl;
-	for (size_t i = 0; i < program.GetRuleList().size(); i++) {
-		PrintRule(program.GetRuleList()[i]);
-		EvaluateRule(program.GetRuleList()[i]);
+
+	int preCount = 0;
+	for (auto it_d : database) {
+		preCount += it_d.second.GetTupleSet().size();
 	}
+	int postCount = 0;
+	int loopCount = 0;
+	while (preCount != postCount) {
+		if (loopCount > 0) {
+			preCount = postCount;
+		}
+		for (size_t i = 0; i < program.GetRuleList().size(); i++) {
+			PrintRule(program.GetRuleList()[i]);
+			EvaluateRule(program.GetRuleList()[i]);
+		}
+		postCount = 0;
+		for (auto it_d : database) {
+			postCount += it_d.second.GetTupleSet().size();
+		}
+		loopCount++;
+	} 
+
 	cout << endl << "Schemes populated after ";
-	cout << "?"; //UPDATE
+	cout << loopCount;
 	cout << " passes through the Rules." << endl << endl;
 }
 
@@ -254,24 +272,6 @@ void Interpreter::Join(Relation relation_1, Relation relation_2) {
 	}
 
 	relationTemp = newRelation;
-
-	//cout << endl << endl << newRelation.GetName() << "(";
-	//for (size_t i = 0; i < newRelation.GetScheme().GetAttributeList().size(); i++) {
-	//	cout << newRelation.GetScheme().GetAttribute(i);
-	//	if (i < newRelation.GetScheme().GetAttributeList().size() - 1) {
-	//		cout << ",";
-	//	}
-	//}
-	//cout << ")? ";
-	//if (newRelation.GetTupleSet().empty()) {
-	//	cout << "No";
-	//}
-	//else {
-	//	cout << "Yes(" << newRelation.GetTupleSet().size() << ")";
-	//}
-	//cout << endl;
-	//newRelation.PrintRelation();
-
 }
 
 
@@ -339,11 +339,11 @@ void Interpreter::UniteWithDatabase(Relation joinedRelation) {
 	Relation newRelation = database.GetRelation(joinedRelation.GetName());
 	for (auto it : joinedRelation.GetTupleSet()) {
 		if (newRelation.AddTuple(it)) {
-			//Print tuple
+			newRelation.PrintTuple(it);
 		}
 	}
 	database.ResetRelation(newRelation.GetName(), newRelation);
-	newRelation.PrintRelation();
+	
 }
 
 

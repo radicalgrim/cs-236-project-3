@@ -39,9 +39,6 @@
     <ClCompile Include="Scheme.cpp">
       <Filter>Lab 2</Filter>
     </ClCompile>
-    <ClCompile Include="Tuple.cpp">
-      <Filter>Lab 2</Filter>
-    </ClCompile>
     <ClCompile Include="Database.cpp">
       <Filter>Lab 3 - 4</Filter>
     </ClCompile>
@@ -52,6 +49,9 @@
       <Filter>Lab 3 - 4</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
+      <Filter>Lab 3 - 4</Filter>
+    </ClCompile>
+    <ClCompile Include="Tuple.cpp">
       <Filter>Lab 3 - 4</Filter>
     </ClCompile>
   </ItemGroup>
@@ -77,9 +77,6 @@
     <ClInclude Include="Scheme.h">
       <Filter>Lab 2</Filter>
     </ClInclude>
-    <ClInclude Include="Tuple.h">
-      <Filter>Lab 2</Filter>
-    </ClInclude>
     <ClInclude Include="DatalogProgram.h">
       <Filter>Lab 2</Filter>
     </ClInclude>
@@ -90,6 +87,9 @@
       <Filter>Lab 3 - 4</Filter>
     </ClInclude>
     <ClInclude Include="Database.h">
+      <Filter>Lab 3 - 4</Filter>
+    </ClInclude>
+    <ClInclude Include="Tuple.h">
       <Filter>Lab 3 - 4</Filter>
     </ClInclude>
   </ItemGroup>

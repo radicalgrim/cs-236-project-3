@@ -21,6 +21,6 @@ public:
 	string GetName();
 	Scheme GetScheme();
 	set<Tuple> GetTupleSet();
-	//void SelectSpecificValue(int index, string value);
+	void PrintTuple(Tuple tuple);
 };
 

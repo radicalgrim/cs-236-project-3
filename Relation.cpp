@@ -58,13 +58,17 @@ set<Tuple> Relation::GetTupleSet() {
 	return tupleSet;
 }
 
-
-//void Relation::SelectSpecificValue(int index, string value) {
-//	Relation newRelation = Relation(this->GetName(), this->GetScheme());
-//	for (auto it : this->GetTupleSet()) {
-//		if (it.GetValue(index) == value) {
-//			newRelation.AddTuple(it);
-//		}
-//	}
-//	*this = newRelation;
-//}
+void Relation::PrintTuple(Tuple tuple) {
+	for (size_t i = 0; i < scheme.GetLength(); i++) {
+		if (i == 0) {
+			cout << "  ";
+		}
+		cout << scheme.GetAttribute(i) << "=" << tuple.GetValue(i);
+		if (i == scheme.GetLength() - 1) {
+			cout << endl;
+		}
+		else {
+			cout << ", ";
+		}
+	}
+}
