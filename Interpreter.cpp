@@ -15,43 +15,6 @@ void Interpreter::Interpret() {
 	FactInterpreter();
 	RuleInterpreter();
 	QueryInterpreter();
-
-	//string n_1 = "Example_1";
-	//Scheme S_1 = Scheme();
-	//S_1.AddAttribute("A");
-	//S_1.AddAttribute("B");
-	//S_1.AddAttribute("C");
-	//Tuple T_1_1 = Tuple();
-	//T_1_1.AddValue("bob");
-	//T_1_1.AddValue("joe");
-	//T_1_1.AddValue("paul");
-	//Tuple T_1_2 = Tuple();
-	//T_1_2.AddValue("sue");
-	//T_1_2.AddValue("barb");
-	//T_1_2.AddValue("kate");
-	//Relation exampleRelation_1 = Relation(n_1, S_1);
-	//exampleRelation_1.AddTuple(T_1_1);
-	//exampleRelation_1.AddTuple(T_1_2);
-
-	//string n_2 = "Example_2";
-	//Scheme S_2 = Scheme();
-	//S_2.AddAttribute("B");
-	//S_2.AddAttribute("C");
-	//S_2.AddAttribute("D");
-	//Tuple T_2_1 = Tuple();
-	//T_2_1.AddValue("joe");
-	//T_2_1.AddValue("paul");
-	//T_2_1.AddValue("kip");
-	//Tuple T_2_2 = Tuple();
-	//T_2_2.AddValue("barb");
-	//T_2_2.AddValue("kate");
-	//T_2_2.AddValue("lara");
-	//Relation exampleRelation_2 = Relation(n_2, S_2);
-	//exampleRelation_2.AddTuple(T_2_1);
-	//exampleRelation_2.AddTuple(T_2_2);
-
-	//Join(exampleRelation_1, exampleRelation_2);
-
 }
 
 
@@ -125,23 +88,27 @@ void Interpreter::EvaluateRule(Rule rule) {
 
 	vector<int> columnList;
 	columnList = ConstructColumnList(rule.GetHeadPredicate().GetParameterList(), relationTemp.GetScheme().GetAttributeList());
-	Project(columnList);
-	
-	//Rename();
-	
+	Project(columnList);	
 	UniteWithDatabase(relationTemp);
 }
 
 
 vector<int> Interpreter::ConstructColumnList(vector<Parameter> headScheme, vector<string> relationScheme) {
-	vector<int> columnList;
+//	map<string, int> variableTracker = map<string, int>();
+	vector<int> columnList = vector<int>();
+
 	for (size_t i = 0; i < headScheme.size(); i++) {
 		for (size_t j = 0; j < relationScheme.size(); j++) {
 			if (headScheme[i].GetExpression() == relationScheme[j]) {
-				columnList.push_back(j);
+//				if (variableTracker.count(relationScheme[j]) == 0) {
+					columnList.push_back(j);
+//					variableTracker.insert(pair<string, int>(relationScheme[j], i));
+//				}
+				
 			}
 		}
 	}
+
 	return columnList;
 }
 
@@ -169,8 +136,6 @@ void Interpreter::PrintRule(Rule rule) {
 		}
 	}
 	cout << ")." << endl;
-
-	//relationTemp.PrintRelation();
 }
 
 
@@ -226,6 +191,10 @@ void Interpreter::SelectMatchingColumns(int index_1, int index_2) {
 
 
 void Interpreter::Project(vector<int> indexList) {
+	for (size_t i = 0; i < indexList.size(); i++) {
+		cout << " " <<  indexList[i];
+	}
+	cout << endl;
 	Relation newRelation = Relation(relationTemp.GetName());
 	Scheme newScheme = Scheme();
 	for (size_t i = 0; i < indexList.size(); i++) {
@@ -236,7 +205,7 @@ void Interpreter::Project(vector<int> indexList) {
 	for (auto it : relationTemp.GetTupleSet()) {
 		Tuple newTuple = Tuple();
 		for (size_t i = 0; i < indexList.size(); i++) {
-			string value = it.GetValue(indexList[i]);
+			string value = it.GetValue(indexList[i]); //FIX THIS
 			newTuple.AddValue(value);
 		}
 		newRelation.AddTuple(newTuple);
