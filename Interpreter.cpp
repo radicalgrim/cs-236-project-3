@@ -191,10 +191,6 @@ void Interpreter::SelectMatchingColumns(int index_1, int index_2) {
 
 
 void Interpreter::Project(vector<int> indexList) {
-	for (size_t i = 0; i < indexList.size(); i++) {
-		cout << " " <<  indexList[i];
-	}
-	cout << endl;
 	Relation newRelation = Relation(relationTemp.GetName());
 	Scheme newScheme = Scheme();
 	for (size_t i = 0; i < indexList.size(); i++) {
@@ -251,8 +247,8 @@ Scheme Interpreter::CombineSchemes(Scheme scheme_1, Scheme scheme_2) {
 	}
 	bool found = false;
 	for (size_t i = 0; i < scheme_2.GetAttributeList().size(); i++) {
-		for (size_t j = 0; j < scheme_2.GetAttributeList().size(); j++) {
-			if (scheme_2.GetAttribute(i) == scheme_1.GetAttribute(j)) {
+		for (size_t j = 0; j < newScheme.GetAttributeList().size(); j++) {
+			if (scheme_2.GetAttribute(i) == newScheme.GetAttribute(j)) {
 				found = true;
 				break;
 			}
