@@ -94,73 +94,61 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="TestFiles\in40.txt">
+    <Text Include="TestFiles\Lab5\in50.txt">
       <Filter>TestFiles</Filter>
     </Text>
-    <Text Include="TestFiles\in44.txt">
+    <Text Include="TestFiles\Lab5\in54.txt">
       <Filter>TestFiles</Filter>
     </Text>
-    <Text Include="TestFiles\in45.txt">
+    <Text Include="TestFiles\Lab5\in55.txt">
       <Filter>TestFiles</Filter>
     </Text>
-    <Text Include="TestFiles\in46.txt">
+    <Text Include="TestFiles\Lab5\in56.txt">
       <Filter>TestFiles</Filter>
     </Text>
-    <Text Include="TestFiles\in47.txt">
+    <Text Include="TestFiles\Lab5\in58.txt">
       <Filter>TestFiles</Filter>
     </Text>
-    <Text Include="TestFiles\in48.txt">
+    <Text Include="TestFiles\Lab5\in59.txt">
       <Filter>TestFiles</Filter>
     </Text>
-    <Text Include="TestFiles\in49.txt">
+    <Text Include="TestFiles\Lab5\in61.txt">
       <Filter>TestFiles</Filter>
     </Text>
-    <Text Include="TestFiles\in54.txt">
+    <Text Include="TestFiles\Lab5\in62.txt">
       <Filter>TestFiles</Filter>
     </Text>
-    <Text Include="TestFiles\in55.txt">
+    <Text Include="TestFiles\Lab5\in64.txt">
       <Filter>TestFiles</Filter>
     </Text>
-    <Text Include="TestFiles\in61.txt">
+    <Text Include="TestFiles\Lab5\in88.txt">
       <Filter>TestFiles</Filter>
     </Text>
-    <Text Include="TestFiles\in62.txt">
+    <Text Include="TestFiles\Lab5\out50.txt">
       <Filter>TestFiles</Filter>
     </Text>
-    <Text Include="TestFiles\in88.txt">
+    <Text Include="TestFiles\Lab5\out54.txt">
       <Filter>TestFiles</Filter>
     </Text>
-    <Text Include="TestFiles\out40.txt">
+    <Text Include="TestFiles\Lab5\out55.txt">
       <Filter>TestFiles</Filter>
     </Text>
-    <Text Include="TestFiles\out44.txt">
+    <Text Include="TestFiles\Lab5\out56.txt">
       <Filter>TestFiles</Filter>
     </Text>
-    <Text Include="TestFiles\out45.txt">
+    <Text Include="TestFiles\Lab5\out58.txt">
       <Filter>TestFiles</Filter>
     </Text>
-    <Text Include="TestFiles\out46.txt">
+    <Text Include="TestFiles\Lab5\out59.txt">
       <Filter>TestFiles</Filter>
     </Text>
-    <Text Include="TestFiles\out47.txt">
+    <Text Include="TestFiles\Lab5\out61.txt">
       <Filter>TestFiles</Filter>
     </Text>
-    <Text Include="TestFiles\out48.txt">
+    <Text Include="TestFiles\Lab5\out62.txt">
       <Filter>TestFiles</Filter>
     </Text>
-    <Text Include="TestFiles\out49.txt">
-      <Filter>TestFiles</Filter>
-    </Text>
-    <Text Include="TestFiles\out54.txt">
-      <Filter>TestFiles</Filter>
-    </Text>
-    <Text Include="TestFiles\out55.txt">
-      <Filter>TestFiles</Filter>
-    </Text>
-    <Text Include="TestFiles\out61.txt">
-      <Filter>TestFiles</Filter>
-    </Text>
-    <Text Include="TestFiles\out62.txt">
+    <Text Include="TestFiles\Lab5\out64.txt">
       <Filter>TestFiles</Filter>
     </Text>
   </ItemGroup>

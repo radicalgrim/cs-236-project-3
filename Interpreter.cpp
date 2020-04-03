@@ -94,17 +94,12 @@ void Interpreter::EvaluateRule(Rule rule) {
 
 
 vector<int> Interpreter::ConstructColumnList(vector<Parameter> headScheme, vector<string> relationScheme) {
-//	map<string, int> variableTracker = map<string, int>();
 	vector<int> columnList = vector<int>();
 
 	for (size_t i = 0; i < headScheme.size(); i++) {
 		for (size_t j = 0; j < relationScheme.size(); j++) {
 			if (headScheme[i].GetExpression() == relationScheme[j]) {
-//				if (variableTracker.count(relationScheme[j]) == 0) {
 					columnList.push_back(j);
-//					variableTracker.insert(pair<string, int>(relationScheme[j], i));
-//				}
-				
 			}
 		}
 	}
