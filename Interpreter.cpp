@@ -44,33 +44,106 @@ void Interpreter::FactInterpreter() {
 }
 
 
+//void Interpreter::RuleInterpreter() {
+//	cout << "Rule Evaluation" << endl;
+//
+//	int preCount = 0;
+//	for (auto it_d : database) {
+//		preCount += it_d.second.GetTupleSet().size();
+//	}
+//	int postCount = 0;
+//	int loopCount = 0;
+//	while (preCount != postCount) {
+//		if (loopCount > 0) {
+//			preCount = postCount;
+//		}
+//		for (size_t i = 0; i < program.GetRuleList().size(); i++) {
+//			PrintRule(program.GetRuleList()[i]);
+//			EvaluateRule(program.GetRuleList()[i]);
+//		}
+//		postCount = 0;
+//		for (auto it_d : database) {
+//			postCount += it_d.second.GetTupleSet().size();
+//		}
+//		loopCount++;
+//	} 
+//
+//	cout << endl << "Schemes populated after ";
+//	cout << loopCount;
+//	cout << " passes through the Rules." << endl << endl;
+//}
+
+
 void Interpreter::RuleInterpreter() {
-	cout << "Rule Evaluation" << endl;
+	BuildDependencyGraphs(program.GetRuleList());
+	FindSCCs();
+}
 
-	int preCount = 0;
-	for (auto it_d : database) {
-		preCount += it_d.second.GetTupleSet().size();
+
+void Interpreter::BuildDependencyGraphs(vector<Rule> ruleList) {
+	BuildGraphNodes(ruleList);
+	BuildGraphEdges(ruleList);
+	PrintDependencyGraph();
+}
+
+
+void Interpreter::BuildGraphNodes(vector<Rule> ruleList) {
+	for (size_t i = 0; i < ruleList.size(); i++) {
+		Node newNode = Node(i);
+		forwardGraph.AddNode(i, newNode);
+		reverseGraph.AddNode(i, newNode);
 	}
-	int postCount = 0;
-	int loopCount = 0;
-	while (preCount != postCount) {
-		if (loopCount > 0) {
-			preCount = postCount;
-		}
-		for (size_t i = 0; i < program.GetRuleList().size(); i++) {
-			PrintRule(program.GetRuleList()[i]);
-			EvaluateRule(program.GetRuleList()[i]);
-		}
-		postCount = 0;
-		for (auto it_d : database) {
-			postCount += it_d.second.GetTupleSet().size();
-		}
-		loopCount++;
-	} 
+}
 
-	cout << endl << "Schemes populated after ";
-	cout << loopCount;
-	cout << " passes through the Rules." << endl << endl;
+
+void Interpreter::BuildGraphEdges(vector<Rule> ruleList) {
+	for (size_t i = 0; i < ruleList.size(); i++) {
+		for (size_t j = 0; j < ruleList[i].GetBodyPredicates().size(); j++) {
+			for (size_t k = 0; k < ruleList.size(); k++) {
+				if (ruleList[i].GetBodyPredicates()[j].GetName() == ruleList[k].GetHeadPredicate().GetName()) {
+					forwardGraph.AddEdge(i, k);
+					reverseGraph.AddEdge(k, i);
+					if (i == k) {
+						forwardGraph.GetNode(i).SetIsSelfDep(true);
+						reverseGraph.GetNode(i).SetIsSelfDep(true);
+					}
+				}
+			}
+		}
+	}
+}
+
+
+void Interpreter::PrintDependencyGraph() {
+	cout << "Dependency Graph" << endl;
+	for (auto it_n : forwardGraph.GetNodeMap()) {
+		cout << "  R" << it_n.first << " :";
+		for (auto it_a : it_n.second.GetAdjacentNodes()) {
+			cout << " R" << it_a;
+		}
+		cout << endl;
+	}
+	cout << endl;
+}
+
+
+void Interpreter::FindSCCs() {
+	reverseGraph.DFS_Forest();
+
+	cout << "Reverse Topological Sort" << endl;
+	while (!reverseGraph.GetPostOrderNums().empty()) {
+		forwardGraph.DFS(reverseGraph.GetPostOrderNums().top());
+		cout << reverseGraph.GetPostOrderNums().top() << endl;
+		reverseGraph.PopPostOrderNum();
+	}
+	cout << endl;
+
+	cout << "Forward Topological Sort" << endl;
+	while (!forwardGraph.GetPostOrderNums().empty()) {
+		cout << forwardGraph.GetPostOrderNums().top() << endl;
+		forwardGraph.PopPostOrderNum();
+	}
+	cout << endl;
 }
 
 

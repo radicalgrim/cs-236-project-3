@@ -1,6 +1,7 @@
 #pragma once
 #include "DatalogProgram.h"
 #include "Database.h"
+#include "Graph.h"
 
 class Interpreter {
 private:
@@ -9,9 +10,16 @@ private:
 	Relation relationTemp;
 	Scheme schemeTemp;
 	Tuple tupleTemp;
+	Graph forwardGraph;
+	Graph reverseGraph;
 	void SchemeInterpreter();
 	void FactInterpreter();
 	void RuleInterpreter();
+	void BuildDependencyGraphs(vector<Rule> ruleList);
+	void BuildGraphNodes(vector<Rule> ruleList);
+	void BuildGraphEdges(vector<Rule> ruleList);
+	void PrintDependencyGraph();
+	void FindSCCs();
 	void EvaluateRule(Rule rule);
 	vector<int> ConstructColumnList(vector<Parameter> headScheme, vector<string> relationScheme);
 	void PrintRule(Rule rule);

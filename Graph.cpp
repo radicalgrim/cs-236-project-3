@@ -3,6 +3,10 @@
 Graph::Graph() {
 }
 
+Node Graph::GetNode(int id) {
+	return nodeMap.at(id);
+}
+
 map<int, Node> Graph::GetNodeMap() {
 	return nodeMap;
 }
@@ -11,12 +15,16 @@ void Graph::AddNode(int id, Node node) {
 	nodeMap.insert(pair<int, Node>(id, node));
 }
 
-stack<int> Graph::GetTopSortedNodes() {
-	return topSort;
+stack<int> Graph::GetPostOrderNums() {
+	return postOrderNums;
 }
 
-void Graph::AddNodeTopSort(int index) {
-	topSort.push(index);
+void Graph::PopPostOrderNum() {
+	postOrderNums.pop();
+}
+
+void Graph::SetPostOrderNum(int index) {
+	postOrderNums.push(index);
 }
 
 vector<set<int>> Graph::GetSCC_List() {
@@ -28,7 +36,7 @@ void Graph::AddSCC(set<int> scc) {
 }
 
 void Graph::AddEdge(int from, int to) {
-
+	nodeMap.at(from).SetAdjacentNode(to);
 }
 
 void Graph::DFS_Forest() {
@@ -43,10 +51,11 @@ void Graph::DFS(Node node) {
 	if (node.GetIsVisited()) {
 		return;
 	}
-	node.SetToVisited();
+	nodeMap.at(node.GetID()).SetToVisited();
 	for (auto it : node.GetAdjacentNodes()) {
 		if (!nodeMap.at(it).GetIsVisited()) {
 			DFS(nodeMap.at(it));
 		}
 	}
+	SetPostOrderNum(node.GetID());
 }

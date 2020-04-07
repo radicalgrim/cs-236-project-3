@@ -7,14 +7,16 @@
 class Graph {
 private:
 	map<int, Node> nodeMap;
-	stack<int> topSort;
+	stack<int> postOrderNums;
 	vector<set<int>> SCC_List;
 public:
 	Graph();
+	Node GetNode(int id);
 	map<int, Node> GetNodeMap();
 	void AddNode(int id, Node node);
-	stack<int> GetTopSortedNodes();
-	void AddNodeTopSort(int index);
+	stack<int> GetPostOrderNums();
+	void PopPostOrderNum();
+	void SetPostOrderNum(int index);
 	vector<set<int>> GetSCC_List();
 	void AddSCC(set<int> scc);
 	void AddEdge(int from, int to);

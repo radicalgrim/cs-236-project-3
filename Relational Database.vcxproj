@@ -140,8 +140,10 @@
   <ItemGroup>
     <ClCompile Include="Database.cpp" />
     <ClCompile Include="DatalogProgram.cpp" />
+    <ClCompile Include="Graph.cpp" />
     <ClCompile Include="Interpreter.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Node.cpp" />
     <ClCompile Include="Parameter.cpp" />
     <ClCompile Include="Parser.cpp" />
     <ClCompile Include="Predicate.cpp" />
@@ -155,7 +157,9 @@
   <ItemGroup>
     <ClInclude Include="Database.h" />
     <ClInclude Include="DatalogProgram.h" />
+    <ClInclude Include="Graph.h" />
     <ClInclude Include="Interpreter.h" />
+    <ClInclude Include="Node.h" />
     <ClInclude Include="Parameter.h" />
     <ClInclude Include="Parser.h" />
     <ClInclude Include="Predicate.h" />

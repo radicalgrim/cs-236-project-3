@@ -6,7 +6,7 @@
 
 int main(int argc, char* argv[]) {
 
-	string filename = "TestFiles/Lab5/in50.txt";//argv[1];
+	string filename = "TestFiles/Lab5/in59.txt";//argv[1];
 	Scanner s = Scanner(filename);
 	s.Scan(filename);
 	Parser p = Parser(s.GetTokenList());

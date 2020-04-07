@@ -13,6 +13,9 @@
     <Filter Include="TestFiles">
       <UniqueIdentifier>{b06ece1d-f76b-44c7-9b3b-6c7f9be187c5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Lab 5">
+      <UniqueIdentifier>{73c1371e-d5e8-4f29-a10e-dad7e9386eab}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Token.cpp">
@@ -42,17 +45,23 @@
     <ClCompile Include="Database.cpp">
       <Filter>Lab 3 - 4</Filter>
     </ClCompile>
-    <ClCompile Include="Interpreter.cpp">
-      <Filter>Lab 3 - 4</Filter>
-    </ClCompile>
     <ClCompile Include="Relation.cpp">
-      <Filter>Lab 3 - 4</Filter>
-    </ClCompile>
-    <ClCompile Include="main.cpp">
       <Filter>Lab 3 - 4</Filter>
     </ClCompile>
     <ClCompile Include="Tuple.cpp">
       <Filter>Lab 3 - 4</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Lab 5</Filter>
+    </ClCompile>
+    <ClCompile Include="Interpreter.cpp">
+      <Filter>Lab 5</Filter>
+    </ClCompile>
+    <ClCompile Include="Graph.cpp">
+      <Filter>Lab 5</Filter>
+    </ClCompile>
+    <ClCompile Include="Node.cpp">
+      <Filter>Lab 5</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -83,14 +92,20 @@
     <ClInclude Include="Relation.h">
       <Filter>Lab 3 - 4</Filter>
     </ClInclude>
-    <ClInclude Include="Interpreter.h">
-      <Filter>Lab 3 - 4</Filter>
-    </ClInclude>
     <ClInclude Include="Database.h">
       <Filter>Lab 3 - 4</Filter>
     </ClInclude>
     <ClInclude Include="Tuple.h">
       <Filter>Lab 3 - 4</Filter>
+    </ClInclude>
+    <ClInclude Include="Interpreter.h">
+      <Filter>Lab 5</Filter>
+    </ClInclude>
+    <ClInclude Include="Graph.h">
+      <Filter>Lab 5</Filter>
+    </ClInclude>
+    <ClInclude Include="Node.h">
+      <Filter>Lab 5</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
