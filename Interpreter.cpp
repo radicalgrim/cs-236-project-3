@@ -160,7 +160,7 @@ void Interpreter::EvaluateSCCs() {
 		set<int> component = forwardGraph.GetSCC_List()[i];
 		bool flag;
 		
-		cout << "SCC:";
+		cout << "SCC: ";
 		PrintComponent(component);
 		cout << endl;
 
@@ -190,7 +190,7 @@ void Interpreter::EvaluateSCCs() {
 			}
 		}
 
-		cout << loopCount << " passes:";
+		cout << loopCount << " passes: ";
 		PrintComponent(component);
 		cout << endl;
 	}
@@ -200,7 +200,7 @@ void Interpreter::EvaluateSCCs() {
 void Interpreter::PrintComponent(set<int> component) {
 	string str;
 	for (auto it : component) {
-		str += " R" + to_string(it) + ',';
+		str += "R" + to_string(it) + ',';
 	}
 	if (str.back() == ',') {
 		str.pop_back();
