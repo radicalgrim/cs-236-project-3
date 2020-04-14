@@ -40,6 +40,6 @@ bool Node::GetIsSelfDep() {
 	return isSelfDependent;
 }
 
-void Node::SetIsSelfDep(bool sd) {
-	isSelfDependent = sd;
+void Node::SetIsSelfDep() {
+	isSelfDependent = true;
 }

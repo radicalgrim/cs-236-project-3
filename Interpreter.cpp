@@ -44,39 +44,45 @@ void Interpreter::FactInterpreter() {
 }
 
 
-//void Interpreter::RuleInterpreter() {
-//	cout << "Rule Evaluation" << endl;
-//
-//	int preCount = 0;
-//	for (auto it_d : database) {
-//		preCount += it_d.second.GetTupleSet().size();
-//	}
-//	int postCount = 0;
-//	int loopCount = 0;
-//	while (preCount != postCount) {
-//		if (loopCount > 0) {
-//			preCount = postCount;
-//		}
-//		for (size_t i = 0; i < program.GetRuleList().size(); i++) {
-//			PrintRule(program.GetRuleList()[i]);
-//			EvaluateRule(program.GetRuleList()[i]);
-//		}
-//		postCount = 0;
-//		for (auto it_d : database) {
-//			postCount += it_d.second.GetTupleSet().size();
-//		}
-//		loopCount++;
-//	} 
-//
-//	cout << endl << "Schemes populated after ";
-//	cout << loopCount;
-//	cout << " passes through the Rules." << endl << endl;
-//}
+/*********** Lab 4 Rule Interpreter **************
+
+void Interpreter::RuleInterpreter() {
+	cout << "Rule Evaluation" << endl;
+
+	int preCount = 0;
+	for (auto it_d : database) {
+		preCount += it_d.second.GetTupleSet().size();
+	}
+	int postCount = 0;
+	int loopCount = 0;
+	while (preCount != postCount) {
+		if (loopCount > 0) {
+			preCount = postCount;
+		}
+		for (size_t i = 0; i < program.GetRuleList().size(); i++) {
+			PrintRule(program.GetRuleList()[i]);
+			EvaluateRule(program.GetRuleList()[i]);
+		}
+		postCount = 0;
+		for (auto it_d : database) {
+			postCount += it_d.second.GetTupleSet().size();
+		}
+		loopCount++;
+	} 
+
+	cout << endl << "Schemes populated after ";
+	cout << loopCount;
+	cout << " passes through the Rules." << endl << endl;
+}
+*/
 
 
 void Interpreter::RuleInterpreter() {
 	BuildDependencyGraphs(program.GetRuleList());
 	FindSCCs();
+	EvaluateSCCs();
+
+
 }
 
 
@@ -104,8 +110,8 @@ void Interpreter::BuildGraphEdges(vector<Rule> ruleList) {
 					forwardGraph.AddEdge(i, k);
 					reverseGraph.AddEdge(k, i);
 					if (i == k) {
-						forwardGraph.GetNode(i).SetIsSelfDep(true);
-						reverseGraph.GetNode(i).SetIsSelfDep(true);
+						forwardGraph.SetNodeSelfDep(i);
+						reverseGraph.SetNodeSelfDep(i);
 					}
 				}
 			}
@@ -116,11 +122,18 @@ void Interpreter::BuildGraphEdges(vector<Rule> ruleList) {
 
 void Interpreter::PrintDependencyGraph() {
 	cout << "Dependency Graph" << endl;
+	string str;
+
 	for (auto it_n : forwardGraph.GetNodeMap()) {
-		cout << "  R" << it_n.first << " :";
+		str.clear();
+		str += 'R' + to_string(it_n.first) + ':';
 		for (auto it_a : it_n.second.GetAdjacentNodes()) {
-			cout << " R" << it_a;
+			str += "R" + to_string(it_a) + ',';
 		}
+		if (str.back() == ',') {
+			str.pop_back();
+		}
+		cout << str;
 		cout << endl;
 	}
 	cout << endl;
@@ -130,20 +143,69 @@ void Interpreter::PrintDependencyGraph() {
 void Interpreter::FindSCCs() {
 	reverseGraph.DFS_Forest();
 
-	cout << "Reverse Topological Sort" << endl;
+	set<int> component;
 	while (!reverseGraph.GetPostOrderNums().empty()) {
-		forwardGraph.DFS(reverseGraph.GetPostOrderNums().top());
-		cout << reverseGraph.GetPostOrderNums().top() << endl;
-		reverseGraph.PopPostOrderNum();
+		component = set<int>();
+		forwardGraph.DFS(reverseGraph.GetPostOrderNums().top(), component);
+		forwardGraph.AddSCC(component);
+		for (size_t i = 0; i < component.size(); i++) {
+			reverseGraph.PopPostOrderNum();
+		}		
 	}
-	cout << endl;
+}
 
-	cout << "Forward Topological Sort" << endl;
-	while (!forwardGraph.GetPostOrderNums().empty()) {
-		cout << forwardGraph.GetPostOrderNums().top() << endl;
-		forwardGraph.PopPostOrderNum();
+void Interpreter::EvaluateSCCs() {
+	cout << "Rule Evaluation" << endl;
+	for (size_t i = 0; i < forwardGraph.GetSCC_List().size(); i++) {
+		set<int> component = forwardGraph.GetSCC_List()[i];
+		bool flag;
+		
+		cout << "SCC:";
+		PrintComponent(component);
+		cout << endl;
+
+		int preCount = 0;
+		for (auto it_d : database) {
+			preCount += it_d.second.GetTupleSet().size();
+		}
+		int postCount = 0;
+		int loopCount = 0;
+
+		while (preCount != postCount) {
+			if (loopCount > 0) {
+				preCount = postCount;
+			}
+			for (auto it : component) {
+				PrintRule(program.GetRuleList()[it]);
+				EvaluateRule(program.GetRuleList()[it]);
+				flag = forwardGraph.GetNodeMap().at(it).GetIsSelfDep();
+			}
+			postCount = 0;
+			for (auto it_d : database) {
+				postCount += it_d.second.GetTupleSet().size();
+			}
+			loopCount++;
+			if (component.size() == 1 && !flag) {
+				break;
+			}
+		}
+
+		cout << loopCount << " passes:";
+		PrintComponent(component);
+		cout << endl;
 	}
 	cout << endl;
+}
+
+void Interpreter::PrintComponent(set<int> component) {
+	string str;
+	for (auto it : component) {
+		str += " R" + to_string(it) + ',';
+	}
+	if (str.back() == ',') {
+		str.pop_back();
+	}
+	cout << str;
 }
 
 

@@ -20,6 +20,8 @@ private:
 	void BuildGraphEdges(vector<Rule> ruleList);
 	void PrintDependencyGraph();
 	void FindSCCs();
+	void EvaluateSCCs();
+	void PrintComponent(set<int> component);
 	void EvaluateRule(Rule rule);
 	vector<int> ConstructColumnList(vector<Parameter> headScheme, vector<string> relationScheme);
 	void PrintRule(Rule rule);

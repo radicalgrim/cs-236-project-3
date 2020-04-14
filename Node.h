@@ -18,6 +18,6 @@ public:
 	bool GetIsVisited();
 	void SetToVisited();
 	bool GetIsSelfDep();
-	void SetIsSelfDep(bool sd);
+	void SetIsSelfDep();
 };
 

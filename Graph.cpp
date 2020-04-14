@@ -15,6 +15,10 @@ void Graph::AddNode(int id, Node node) {
 	nodeMap.insert(pair<int, Node>(id, node));
 }
 
+void Graph::SetNodeSelfDep(int id) {
+	nodeMap.at(id).SetIsSelfDep();
+}
+
 stack<int> Graph::GetPostOrderNums() {
 	return postOrderNums;
 }
@@ -40,22 +44,24 @@ void Graph::AddEdge(int from, int to) {
 }
 
 void Graph::DFS_Forest() {
+	set<int> component;
 	for (auto it : nodeMap) {
 		if (!it.second.GetIsVisited()) {
-			DFS(it.second);
+			DFS(it.first, component);
 		}
 	}
 }
 
-void Graph::DFS(Node node) {
-	if (node.GetIsVisited()) {
+void Graph::DFS(int id, set<int>& component) {
+	if (nodeMap.at(id).GetIsVisited()) {
 		return;
 	}
-	nodeMap.at(node.GetID()).SetToVisited();
-	for (auto it : node.GetAdjacentNodes()) {
+	component.insert(id);
+	nodeMap.at(id).SetToVisited();
+	for (auto it : nodeMap.at(id).GetAdjacentNodes()) {
 		if (!nodeMap.at(it).GetIsVisited()) {
-			DFS(nodeMap.at(it));
+			DFS(it, component);
 		}
 	}
-	SetPostOrderNum(node.GetID());
+	SetPostOrderNum(id);
 }

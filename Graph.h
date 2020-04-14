@@ -14,6 +14,7 @@ public:
 	Node GetNode(int id);
 	map<int, Node> GetNodeMap();
 	void AddNode(int id, Node node);
+	void SetNodeSelfDep(int id);
 	stack<int> GetPostOrderNums();
 	void PopPostOrderNum();
 	void SetPostOrderNum(int index);
@@ -21,6 +22,6 @@ public:
 	void AddSCC(set<int> scc);
 	void AddEdge(int from, int to);
 	void DFS_Forest();
-	void DFS(Node node);
+	void DFS(int id, set<int>& component);
 };
 
